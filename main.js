@@ -23,7 +23,7 @@ function loadNodes( newClusterNodes) {
             });
             //window.markerMap[feature.properties.service_request_id] = marker;
             //window.markerStatusMap[feature.properties.status].push(marker)
-            console.log(marker)
+            //console.log(marker)
             return marker;
             
         }
@@ -39,8 +39,9 @@ function loadData(url) {
         url: url,
         dataType: 'json',
         success: function(response){
-            var openlabGeoJSON = makeGeojson(response,"j_longitude","j_latitude");
-            console.log(openlabGeoJSON)
+            var openlabGeoJSON = new Geojson;
+            openlabGeoJSON.load(response,"j_longitude","j_latitude")
+            //console.log(openlabGeoJSON)
 //            L.geoJson(openlabGeoJSON, {
 //    style: function (feature) {
 //        return {color: "blue"};
@@ -50,7 +51,7 @@ function loadData(url) {
 //    }
 //}).addTo(map);
             nodes=loadNodes(openlabGeoJSON)
-            console.log(map)
+            //console.log(map)
             map.addLayer(nodes);  
         }
         
@@ -59,10 +60,6 @@ function loadData(url) {
 
 var map = L.map('map').setView([41.87, 12.49], 9);
 var osm_layer = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
-//var ggl_hybrid = new L.Google('HYBRID');
-//var ggl_map = new L.Google('ROADMAP');
-//var ggl_sat = new L.Google();
-//OSM layer added to map
 osm_layer.addTo(map);
 loadData("openlabor.json");
 
